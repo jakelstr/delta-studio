@@ -14,7 +14,7 @@
 #include "../include/yds_render_geometry_channel.h"
 
 #include "../include/yds_file.h"
-#include "../engines/basic/include/safe_string.h" 
+#include "../include/yds_safe_string.h" 
 #include <SDL.h>
 
 
@@ -693,4 +693,4 @@ int ysMetalDevice::GetStrideOfFormat(MTL::VertexFormat format)
 
 
 // ctor magic to register as a subclass
-static ysRegisterSubclass<ysMetalDevice> reg();
+static ysRegisterSubclass<ysMetalDevice> reg;

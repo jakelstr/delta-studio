@@ -4,8 +4,14 @@
 #include "../include/yds_sdl_monitor.h"
 #include "../include/yds_sdl_window.h"
 
+#ifdef __APPLE__
+#include <SDL.h>
+#include <SDL_events.h>
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
+#endif
+
 
 ysSdlWindowSystem::ysSdlWindowSystem() : ysWindowSystem(Platform::Sdl) {
     SDL_Init(SDL_INIT_VIDEO);

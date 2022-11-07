@@ -1,6 +1,10 @@
 #include "../include/yds_key_maps.h"
 
+#ifdef __APPLE__
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 
 ysKey::Code *ysKeyMaps::m_sdlKeyMap;
 

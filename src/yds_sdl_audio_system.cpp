@@ -2,7 +2,11 @@
 
 #include "../include/yds_sdl_audio_device.h"
 
+#ifdef __APPLE__
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 
 ysSdlAudioSystem::ysSdlAudioSystem() : ysAudioSystem(API::Sdl) {
     // Make sure that the audio system is up

@@ -2,8 +2,11 @@
 #define YDS_SDL_AUDIO_DEVICE_H
 
 #include "yds_audio_device.h"
-
+#ifdef __APPLE__
+#include <SDL_audio.h>
+#else
 #include <SDL2/SDL_audio.h>
+#endif
 
 class ysSdlAudioSystem;
 

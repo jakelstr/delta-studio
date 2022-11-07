@@ -52,6 +52,7 @@ ysError ysSdlWindow::InitializeWindow(ysWindow *parent, std::string title, Windo
     }
 
     m_window = SDL_CreateWindow(title.c_str(), x, y, width, height, flags);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 
     return YDS_ERROR_RETURN(ysError::None);
 }

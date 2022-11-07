@@ -4,7 +4,11 @@
 #include "../include/yds_key_maps.h"
 #include "../include/yds_window_system.h"
 
+#ifdef __APPLE__
+#include <SDL.h>
+#else
 #include <SDL2/SDL.h>
+#endif
 
 ysSdlInputSystem::ysSdlInputSystem() : ysInputSystem(Platform::Sdl) {
     /* void */

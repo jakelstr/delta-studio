@@ -7,6 +7,9 @@
 
 int main_inner(void* instance) {
     ysContextObject::DeviceAPI api = ysContextObject::DeviceAPI::OpenGL4_0;
+    #ifdef __APPLE__
+        api = ysContextObject::DeviceAPI::Metal;
+    #endif
     delta_demo::DemoApplication::Demo demo =
         delta_demo::DemoApplication::Demo::DeltaBasicDemo;
 

@@ -13,6 +13,7 @@ public:
         DirectX11,
         OpenGL4_0,
         Vulkan,
+        Metal,
         MAX_ENUM,
     };
 

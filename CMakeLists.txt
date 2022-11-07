@@ -9,7 +9,8 @@ set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "cmake")
 project(delta-studio)
 
 # Graphics APIs
-option(ENABLE_OPENGL "Enable the OpenGL graphics API" ON)
+cmake_dependent_option(ENABLE_OPENGL "Enable the OpenGL graphics API" OFF APPLE ON) #I explicitly turned off OpenGL on Mac simply because I felt like it
+cmake_dependent_option(ENABLE_METAL "Enable macOS Metal API" ON APPLE OFF)
 cmake_dependent_option(ENABLE_D3D "Enable the Direct3D 10/11 graphics API" ON WIN32 OFF)
 cmake_dependent_option(ENABLE_VULKAN "Enable the Vulkan graphics API" ON WIN32 OFF) # TODO: make Vulkan work outside of Win32
 
@@ -20,7 +21,7 @@ cmake_dependent_option(ENABLE_DSOUND "Enable the DirectSound API" ON WIN32 OFF)
 option(ENABLE_PLAT_SDL "Enable the SDL platform" ON)
 cmake_dependent_option(ENABLE_PLAT_WIN32 "Enable the Win32 Platform" ON WIN32 OFF)
 
-if (ENABLE_PLAT_SDL OR ENABLE_OPENGL)
+if (ENABLE_PLAT_SDL OR ENABLE_OPENGL OR ENABLE_METAL)
     set(ENABLE_SDL ON)
 endif()
 
@@ -32,6 +33,7 @@ if (CMAKE_SIZEOF_VOID_P EQUAL 8)
 else()
     set(TARGET_ARCHITECTURE x86)
 endif()
+
 
 
 # =========================================================
@@ -352,9 +354,38 @@ if(ENABLE_OPENGL)
     target_include_directories(delta-core PRIVATE dependencies/libraries/OpenGL/include)
 
     if (APPLE)
-        target_include_directories(delta-code PRIVATE
+        target_include_directories(delta-core PRIVATE
             "${OPENGL_INCLUDE_DIR}/Headers"
         )
+    endif()
+endif()
+if (ENABLE_METAL)
+    if (APPLE)
+    target_include_directories(delta-core PRIVATE
+        #"${OPENGL_INCLUDE_DIR}/Headers" I'm guessing I don't need this 
+        "dependencies/libraries/metal-cpp"
+    )
+    target_sources(delta-core PRIVATE
+        #Source Files
+        src/yds_metal_device.cpp
+        src/yds_metal_context.cpp
+        src/yds_metal_render_target.cpp
+        src/yds_metal_texture.cpp
+        src/yds_metal_shader.cpp
+        src/yds_metal_input_layout.cpp
+        src/yds_metal_shader_program.cpp
+        src/yds_metal_gpu_buffer.cpp
+        #Include Files
+        include/yds_metal_gpu_buffer.h
+        include/yds_metal_shader_program.h
+        include/yds_metal_input_layout.h
+        include/yds_metal_shader.h
+        include/yds_metal_texture.h
+        include/yds_metal_render_target.h
+        include/yds_metal_context.h
+        include/yds_metal_device.h
+    )
+    target_link_libraries(delta-core PRIVATE "-framework Metal" "-framework QuartzCore" "-framework Foundation")
     endif()
 endif()
 
